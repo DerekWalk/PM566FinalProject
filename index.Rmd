@@ -1,5 +1,5 @@
 ---
-title: "PM566 Final Project"
+title: "PM566 Final Project Website"
 author: "Derek Walker"
 output: 
     html_document:
@@ -7,4 +7,133 @@ output:
         toc_float: TRUE
 ---
 
-This is my PM566 Final Project website.
+$~$
+
+## Brief Overview
+
+Every year, FiveThirtyEight (538), an American organization that focuses on opinion poll analysis, politics, economics, and sports blogging in the United States, produces a statistical data report that assesses NBA team and player performance each season, and predicts statistics and trends for the new year. 
+
+Through use of these "538" data, we observed and assessed the relationship between player minutes played in the regular season and total RAPTOR score, a metric created by "538" that makes use of a players box score and "on-off" components to assess the performance level of a particular player. These data provided include information for every player by season since 2014.
+
+In our assessment we found there to be a moderately positive association between the number of minutes a player played and their total RAPTOR score. This website congregates our results and offers insight into our approach.  
+
+
+```{r setup, message=FALSE, echo=FALSE, warning=FALSE}
+library(data.table)
+library(tidyverse)
+library(dplyr)
+library(plotly)
+library(DT)
+library(knitr)
+library(ggplot2)
+library(hrbrthemes)
+library(cowplot)
+library(Hmisc)
+library(corrplot)
+library(gridExtra)
+library(kableExtra)
+library(plotly)
+library(ggplotlyExtra)
+```
+
+```{r message=FALSE, echo=FALSE, warning=FALSE}
+# Initialize code chunk options
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = TRUE,
+  cache = FALSE,
+  fig.width = 7, 
+  fig.align = 'center',
+  fig.asp = 0.618,
+  out.width = "700px")
+```
+
+```{r load-data, echo=FALSE, message=FALSE, echo=FALSE, warning=FALSE}
+nba <- read.csv ('/Users/gazallab/Downloads/nba-raptor/modern_RAPTOR_by_team.csv')
+nbaRS <- nba %>% filter(season_type=="RS", mp > 20) 
+```
+
+$~$
+
+## Table 1
+
+```{r echo=F, message=F, warning=F}
+nba_2022 <- nbaRS %>% 
+  filter(season==2022) %>% 
+  select("Player Name"=player_name,
+         "Team" = team,
+         "Season" = season,
+         "Minutes Played" = mp,
+         "Total RAPTOR Score" = raptor_total,
+         "Offensive RAPTOR Score" = raptor_offense, 
+         "Defensive RAPTOR Score" = raptor_defense) %>%
+  mutate(across(c(where(is.numeric)), round, 2))
+datatable(nba_2022)
+```
+
+**Table 1.** Brief Introduction to the Data: The table above includes our variables of interest across all players that played 20 minutes within the 2022 NBA regular season. As stated prior, there were various other variables and statistics included in the main dataset.
+
+
+```{r echo=F, message=F, warning=F}
+phist1 <- ggplot(nbaRS, aes(x=mp))+
+  geom_histogram(color="darkblue", fill="lightblue")+geom_vline(aes(xintercept=mean(nbaRS$mp)), color="red", linetype="dashed") + geom_vline(data=nbaRS, aes(xintercept=median(nbaRS$mp)), color="blue",  linetype="dashed")
+phist1<- ggplotly(phist1) %>% layout(title = "Histogram of the Number of Minutes Played in the \n NBA Regular Season Between 2014 and 2022", yaxis = list(title = "Count"), xaxis = list(title = "Minutes Played"))
+```
+
+```{r echo=F, message=F, warning=F}
+phist2 <- ggplot(nbaRS, aes(x=raptor_total))+
+  geom_histogram(color="darkblue",fill="lightblue")+geom_vline(aes(xintercept=mean(nbaRS$raptor_total)), color="red", linetype="dashed") + geom_vline(data=nbaRS, aes(xintercept=median(nbaRS$raptor_total)), color="blue",  linetype="dashed")
+phist2 <- ggplotly(phist2)  %>% layout(title = "Histogram of the Raptor Total Score in the \n NBA Regular Season Between 2014 and 2022", yaxis = list(title = "Count"), xaxis = list(title = "Total RAPTOR Score"))
+```
+$~$
+
+## Figures 1 & 2 {.tabset}
+
+### Figure 1
+
+```{r echo=FALSE, message=F, warning=F}
+phist1
+```
+
+### Figure 2
+
+```{r echo=FALSE, message=F, warning=F}
+phist2
+```
+
+## {-}
+
+**Figure 1.** The distribution of the number of minutes played in the NBA Regular Season Between 2014 and 2022. The distribution of minutes played (Figure 1) is heavily skewed right and has a mean value of 1030.42, and a median value of 879.
+
+**Figure 2.** The distribution of the total RAPTOR score in the NBA Regular Season Between 2014 and 2022. The distribution of total RAPTOR score (Figure 2) is symmetric with a slightly heavier left tail. The mean total RAPTOR score is -1.5, and the median value is -1.11.
+
+$~$
+
+## Figure 3
+
+```{r echo=FALSE, message=F, warning=F}
+##Scatterplot: Minutes vs Rap_tot
+p1 <- ggplot(data = nbaRS, mapping = aes(x = mp, y = raptor_total, text=paste(paste("Player Name: ",player_name, sep=""), paste("Season: ", season, sep=""), paste("Team: ", team, sep=""), paste("Minutes Played: ",mp,sep=""), paste("Total RAPTOR Score: ", round(raptor_total,2), sep=""), sep = "<br>") )) + 
+  geom_point() + geom_smooth(mapping = aes(x = mp, y = raptor_total)) +
+  labs(x  = "Minutes Played", y = "Total RAPTOR Score") + ggtitle("Fig 3: Minutes Played vs Total RAPTOR Score in the NBA Regular \nSeason (2014-2022)") + theme(plot.title = element_text(face="bold"))
+ggplotly(p1, tooltip = "text")
+```
+
+**Figure 3.** The scatterplot above depicts the relationship between minutes played and total RAPTOR score. Based on the scatterplot we observe a moderately positive association between the two variables.
+There is also large variance within the players that played a fewer amount of minutes.
+
+## Figure 4
+
+```{r echo=FALSE, message=F, warning=F}
+#Scatterplot: Minutes vs Rap_tot by Team
+p2 <- ggplot(data=nbaRS, aes(mp, raptor_total, col=team, text=paste(paste("Player Name: ",player_name, sep=""), paste("Season: ", season, sep=""), paste("Team: ", team, sep=""), paste("Minutes Played: ",mp,sep=""), paste("Total RAPTOR Score: ", round(raptor_total,2), sep=""), sep = "<br>") )) + 
+  geom_point(mapping = aes(x = mp, y = raptor_total, color=team)) + stat_smooth(method='lm', col='black', size=0.5, se=F)+
+  facet_wrap(~ team, nrow = 3) + xlab("Minutes Played") + ylab("Total RAPTOR Score") + ggtitle("Fig 4: Linear Regression of Minutes Played vs Total RAPTOR Score by Team") + theme(plot.title = element_text(face="bold")) + scale_x_continuous(breaks = c(0,1000,2000,3000))
+ggplotly(p2,tooltip = "text")
+```
+
+**Figure 4.** The scatterplot above depicts the relationship between minutes played and total RAPTOR score by team. Based on this plot we observe the same moderately positive association between minutes played and total RAPTOR score across all teams.
+
+Copyright © 2023, Derek Walker.

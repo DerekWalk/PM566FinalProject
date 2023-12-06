@@ -1,1 +1,18 @@
-
+name: "my-website"
+output_dir: "."
+navbar:
+  title: "PM566 Final Project"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Full Report"
+      href: Midterm Project PM566 - Derek Walker.pdf
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/DerekWalk/PM566FinalProject
+output:
+  html_document:
+    theme: cosmo
+    include:
+      after_body: 
+    css: styles.css
