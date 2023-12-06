@@ -103,7 +103,6 @@ phist1
 phist2
 ```
 
-## {-}
 
 **Figure 1.** The distribution of the number of minutes played in the NBA Regular Season Between 2014 and 2022. The distribution of minutes played (Figure 1) is heavily skewed right and has a mean value of 1030.42, and a median value of 879.
 
@@ -116,7 +115,7 @@ $~$
 ```{r echo=FALSE, message=F, warning=F}
 ##Scatterplot: Minutes vs Rap_tot
 p1 <- ggplot(data = nbaRS, mapping = aes(x = mp, y = raptor_total, text=paste(paste("Player Name: ",player_name, sep=""), paste("Season: ", season, sep=""), paste("Team: ", team, sep=""), paste("Minutes Played: ",mp,sep=""), paste("Total RAPTOR Score: ", round(raptor_total,2), sep=""), sep = "<br>") )) + 
-  geom_point() + geom_smooth(mapping = aes(x = mp, y = raptor_total)) +
+  geom_point() +
   labs(x  = "Minutes Played", y = "Total RAPTOR Score") + ggtitle("Fig 3: Minutes Played vs Total RAPTOR Score in the NBA Regular \nSeason (2014-2022)") + theme(plot.title = element_text(face="bold"))
 ggplotly(p1, tooltip = "text")
 ```
@@ -129,11 +128,44 @@ There is also large variance within the players that played a fewer amount of mi
 ```{r echo=FALSE, message=F, warning=F}
 #Scatterplot: Minutes vs Rap_tot by Team
 p2 <- ggplot(data=nbaRS, aes(mp, raptor_total, col=team, text=paste(paste("Player Name: ",player_name, sep=""), paste("Season: ", season, sep=""), paste("Team: ", team, sep=""), paste("Minutes Played: ",mp,sep=""), paste("Total RAPTOR Score: ", round(raptor_total,2), sep=""), sep = "<br>") )) + 
-  geom_point(mapping = aes(x = mp, y = raptor_total, color=team)) + stat_smooth(method='lm', col='black', size=0.5, se=F)+
+  geom_point(mapping = aes(x = mp, y = raptor_total, color=team)) +
   facet_wrap(~ team, nrow = 3) + xlab("Minutes Played") + ylab("Total RAPTOR Score") + ggtitle("Fig 4: Linear Regression of Minutes Played vs Total RAPTOR Score by Team") + theme(plot.title = element_text(face="bold")) + scale_x_continuous(breaks = c(0,1000,2000,3000))
 ggplotly(p2,tooltip = "text")
 ```
 
 **Figure 4.** The scatterplot above depicts the relationship between minutes played and total RAPTOR score by team. Based on this plot we observe the same moderately positive association between minutes played and total RAPTOR score across all teams.
 
+
+```{r echo=FALSE, message=F, warning=F}
+##Scatterplot: Minutes vs Offensive RAPTOR Score
+p3 <- ggplot(data = nbaRS, mapping = aes(x = mp, y = raptor_offense, text=paste(paste("Player Name: ",player_name, sep=""), paste("Season: ", season, sep=""), paste("Team: ", team, sep=""), paste("Minutes Played: ",mp,sep=""), paste("Offensive RAPTOR Score: ", round(raptor_offense,2), sep=""), sep = "<br>") )) + geom_point() +
+  labs(x  = "Minutes Played", y = "Offensive RAPTOR Score") + ggtitle("Fig 5: Minutes Played vs Offensive RAPTOR Score in the NBA Regular \nSeason (2014-2022)") + theme(plot.title = element_text(face="bold"))
+p3off <- ggplotly(p3, tooltip = "text")
+```
+
+
+```{r echo=FALSE, message=F, warning=F}
+##Scatterplot: Minutes vs Defensive RAPTOR Score
+p4 <- ggplot(data = nbaRS, mapping = aes(x = mp, y = raptor_defense, text=paste(paste("Player Name: ",player_name, sep=""), paste("Season: ", season, sep=""), paste("Team: ", team, sep=""), paste("Minutes Played: ",mp,sep=""), paste("Defensive RAPTOR Score: ", round(raptor_defense,2), sep=""), sep = "<br>") )) + geom_point() +
+  labs(x  = "Minutes Played", y = "Defensive RAPTOR Score") + ggtitle("Fig 5: Minutes Played vs Defensive RAPTOR Score in the NBA Regular \nSeason (2014-2022)") + theme(plot.title = element_text(face="bold"))
+p4def <- ggplotly(p4, tooltip = "text")
+```
+
+
+## Figures 5 & 6 {.tabset}
+
+### Figure 5
+
+```{r echo=FALSE, message=F, warning=F}
+p3off
+```
+
+### Figure 6
+
+```{r echo=FALSE, message=F, warning=F}
+p4def
+```
+
+
 Copyright © 2023, Derek Walker.
+
