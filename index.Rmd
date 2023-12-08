@@ -73,7 +73,7 @@ nba_2022 <- nbaRS %>%
 datatable(nba_2022)
 ```
 
-**Table 1.** Brief Introduction to the Data: The table above includes our variables of interest across all players that played 20 minutes within the 2022 NBA regular season. As stated prior, there were various other variables and statistics included in the main dataset.
+**Table 1.** Brief Introduction to the Data: The table above includes our variables of interest (minutes played, RAPTOR score) across all players that played at least 20 minutes within the 2022 NBA regular season. As stated prior, these data date all the way back to 2014, and in addition, there were various other variables and statistics that were calculated and included in the main dataset.
 
 
 ```{r echo=F, message=F, warning=F}
@@ -107,9 +107,9 @@ phist2
 
 ## {-}
 
-**Figure 1.** The distribution of the number of minutes played in the NBA Regular Season Between 2014 and 2022. The distribution of minutes played (Figure 1) is heavily skewed right and has a mean value of 1030.42, and a median value of 879.
+**Figure 1.** The histogram above depicts the distribution of the number of minutes played in the NBA Regular Season Between 2014 and 2022. The distribution of minutes played (Figure 1) is heavily skewed right and had a mean value of 1030.42, and a median value of 879.
 
-**Figure 2.** The distribution of the total RAPTOR score in the NBA Regular Season Between 2014 and 2022. The distribution of total RAPTOR score (Figure 2) is symmetric with a slightly heavier left tail. The mean total RAPTOR score is -1.5, and the median value is -1.11.
+**Figure 2.** The histogram above depicts the distribution of the total RAPTOR score in the NBA Regular Season Between 2014 and 2022. The distribution of total RAPTOR score (Figure 2) is relatively symmetric with a slightly heavier left tail. The mean total RAPTOR score was -1.5, and the median value was -1.11.
 
 $~$
 
@@ -124,7 +124,7 @@ p1 <-  (layout(p1, margin=list(t = 75)))
 p1
 ```
 
-**Figure 3.** The scatterplot above depicts the relationship between minutes played and total RAPTOR score. Based on the scatterplot we observe a moderately positive association, with a correlation of ⍴(rho)= 0.45 between the two variables. There is also large variance within the players that played a fewer amount of minutes.
+**Figure 3.** The scatterplot above depicts the relationship between minutes played and total RAPTOR score. Based on the scatterplot we observe a moderately positive association, with a pearson's correlation coefficient of ⍴(rho)= 0.45 between the two variables. There is also large variance within the players that played a fewer amount of minutes.
 
 $~$
 
@@ -141,7 +141,7 @@ p2 <-  (layout(p2, margin=list(t = 150)))
 p2
 ```
 
-**Figure 4.** The scatterplot above depicts the relationship between minutes played and total RAPTOR score by team. Based on this plot we observe the same moderately positive association between minutes played and total RAPTOR score across all teams.
+**Figure 4.** The scatterplots above depict the relationship between minutes played and total RAPTOR score by team. Based on this plot we observe the same moderately positive association between minutes played and total RAPTOR score across all teams. The Golden State Warriors were the team with the highest pearson's correlation coefficient at 0.65, and the New York Knicks were the team with the lowest pearson's correlation coefficent at 0.22.
 
 
 ```{r echo=FALSE, message=F, warning=F}
@@ -177,9 +177,9 @@ p4def
 
 ## {-}
 
-**Figure 5.** The scatterplot above displays the positive association between player minutes played and offensive RAPTOR score. The correlation value for this relationship is ⍴(rho) = 0.48, which is slightly higher than the ⍴ value for the correlation between player minutes played and total RAPTOR score.
+**Figure 5.** The scatterplot above displays the positive association between player minutes played and offensive RAPTOR score. The pearson's correlation coefficient value for this relationship is ⍴(rho) = 0.48, which is slightly higher than the ⍴ value for the correlation between player minutes played and total RAPTOR score.
 
-**Figure 6.** The scatterplot above displays the association between player minutes played and defensive RAPTOR score. Again, we observe a slightly positive association between the two variables, and obtain a ⍴(rho) value of 0.18 for the correlation. Clearly, this positive association is not as strong as the positive association observed between both minutes played vs. offensive RAPTOR score, and minutes played vs. total RAPTOR score. 
+**Figure 6.** The scatterplot above displays the association between player minutes played and defensive RAPTOR score. Again, we observe a slightly positive association between the two variables, and obtain a pearson's correlation coefficient ⍴(rho) value of 0.18. Clearly, this positive association is not as strong as the positive association observed between minutes played vs. offensive RAPTOR score, indicating that the players the are quote unquote "more effective" are those players which offer more offensively than defensively. 
 
 $~$
 
