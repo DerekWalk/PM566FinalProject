@@ -7,4 +7,4 @@ This is the link to their website: [FiveThirtyEight](https://data.fivethirtyeigh
 This is the link to their Github repository: [538RaptorData](https://github.com/fivethirtyeight/data/tree/master/nba-raptor)
 
 
-Have fun!
+Have fun! :)
