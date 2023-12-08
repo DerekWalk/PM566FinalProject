@@ -6,7 +6,7 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Full Report"
-      href: Midterm Project PM566 - Derek Walker.pdf
+      href: Final Project PM566.pdf
   right:
     - icon: fa-github fa-lg
       href: https://github.com/DerekWalk/PM566FinalProject
@@ -14,5 +14,5 @@ output:
   html_document:
     theme: cosmo
     include:
-      after_body: 
+      after_body:
     css: styles.css
